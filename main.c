@@ -6,7 +6,7 @@
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:49:00 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/01 19:39:47 by aldferna         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:19:43 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char **search_path(char **env, char *comnd)
         new_path = ft_strjoin(aux, comnd);
         free(paths[i]);
         paths[i] = new_path;
-        printf ("%s\n", paths[i]); //quitar
         free(aux);
         i++;
     }
@@ -82,7 +81,7 @@ int main (int argc, char **argv, char **env)
         i = 0;
         while (paths[i] != NULL)
         {
-            if (access(paths[i], X_OK) == 0) //me faltan flags?
+            if (access(paths[i], X_OK) == 0)
                 execve(paths[i], comnd1, env);
             i++;
         }
@@ -90,7 +89,6 @@ int main (int argc, char **argv, char **env)
     }
     else
     {
-        waitpid(pid_1, NULL, 0);
         pid_2 = fork();
         if (pid_2 == -1)
             exit (6);
@@ -111,15 +109,17 @@ int main (int argc, char **argv, char **env)
             i = 0;
             while (paths[i] != NULL)
             {
-                if (access(paths[i], X_OK) == 0) //me faltan flags?
+                if (access(paths[i], X_OK) == 0)
                     execve(paths[i], comnd2, env);
                 i++;
             }
-            execve("path", comnd2, env);
             exit (9);
         }
         else //aqui algo mas?
         {
+            close (connect[1]);
+            close (connect[0]);
+            waitpid(pid_1, NULL, 0);
             waitpid(pid_2, NULL, 0);
             return (0);
         }
