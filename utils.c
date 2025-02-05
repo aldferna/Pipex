@@ -6,7 +6,7 @@
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:09:26 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/05 16:48:42 by aldferna         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:11:38 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ char	**search_path(char **env, char *comnd)
 int	ok_args(int argc, char **arg)
 {
 	int	i;
-	int x;
-	int count;
+	int	x;
+	int	count;
 
 	count = 0;
-    i = 2;
+	i = 2;
 	while (i < argc - 1)
 	{
 		x = 0;
@@ -57,7 +57,7 @@ int	ok_args(int argc, char **arg)
 			if (arg[i][x] != ' ' && arg[i][x] != '\t' && arg[i][x] != '\n')
 			{
 				count++;
-				break;
+				break ;
 			}
 			x++;
 		}

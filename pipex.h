@@ -6,12 +6,12 @@
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:09:35 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/05 16:47:17 by aldferna         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:11:13 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_h
-# define PIPEX_h
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # define END_COMD 0
 # define OUTFILE 1

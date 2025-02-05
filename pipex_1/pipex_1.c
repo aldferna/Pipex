@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:49:00 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/05 17:58:18 by aldferna         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:30:55 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_1.h"
 
 char	**search_path(char **env, char *comnd)
 {
@@ -126,15 +126,15 @@ void	second_command(int *connect, char **argv, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	pid_t	pid_1;
-	//pid_t	pid_2;
 	int		connect[2];
 
+	// pid_t	pid_2;
 	if (argc != 5 || isspace_str(argv[2]) == 0 || isspace_str(argv[3]) == 0)
 	{
 		write(2, "wrong param\n", 12);
 		exit(1);
 	}
-	pipe(connect); //init/medium/ end y cada abre su pipe y hace su fork devuelven lo que necesita el siguiente hijo
+	pipe(connect);
 	pid_1 = fork();
 	if (pid_1 == -1)
 		exit(2);
@@ -143,7 +143,7 @@ int	main(int argc, char **argv, char **env)
 	else
 	{
 		if (fork() == 0)
-			   second_command(connect, argv, env);
+			second_command(connect, argv, env);
 		close(connect[1]);
 		close(connect[0]);
 		waitpid(pid_1, NULL, 0);
@@ -151,13 +151,10 @@ int	main(int argc, char **argv, char **env)
 	}
 }
 
-
-	// pid_2 = fork();
-	// if (pid_2 == -1)
-	// 	exit(6);
-	// if (pid_2 == 0)
-	// 	second_command(connect, argv, env);
-	// else
-	// 	end(connect, pid_1, pid_2);
-
-	//./pipex paco.txt ls wc > slash.txt
+// pid_2 = fork();
+// if (pid_2 == -1)
+// 	exit(6);
+// if (pid_2 == 0)
+// 	second_command(connect, argv, env);
+// else
+// 	end(connect, pid_1, pid_2);
