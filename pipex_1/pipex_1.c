@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:49:00 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/03 20:01:10 by aldferna         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:58:18 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include "pipex.h"
 
 char	**search_path(char **env, char *comnd)
 {
@@ -27,12 +20,8 @@ char	**search_path(char **env, char *comnd)
 	int		i;
 
 	i = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
+	while ((env[i] != NULL) && (ft_strncmp(env[i], "PATH=", 5) != 0))
 		i++;
-	}
 	if (env[i] == NULL)
 	{
 		write(2, "Path not found\n", 16);
@@ -71,12 +60,11 @@ void	exe(char **env, char **comnd)
 		}
 		i = 0;
 		while (paths[i])
-		{
-			free(paths[i]);
-			i++;
-		}
+			free(paths[i++]);
 		free(paths);
 	}
+	// perror("error command");
+	// exit(5);
 }
 
 void	first_command(int *connect, char **argv, char **env)
@@ -85,13 +73,13 @@ void	first_command(int *connect, char **argv, char **env)
 	char	**comnd1;
 
 	close(connect[0]);
-	fd_in = open(argv[1], O_RDONLY);
+	fd_in = open(argv[INFILE], O_RDONLY);
 	if (fd_in < 0)
 	{
 		perror("error input file");
 		exit(3);
 	}
-	comnd1 = ft_split(argv[2], ' ');
+	comnd1 = ft_split(argv[COMD1], ' ');
 	if (!comnd1)
 		exit(4);
 	dup2(fd_in, 0);
@@ -109,13 +97,13 @@ void	second_command(int *connect, char **argv, char **env)
 	char	**comnd2;
 
 	close(connect[1]);
-	fd_out = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd_out = open(argv[OUTFILE], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd_out < 0)
 	{
 		perror("error output file");
 		exit(7);
 	}
-	comnd2 = ft_split(argv[3], ' ');
+	comnd2 = ft_split(argv[COMD2], ' ');
 	if (!comnd2)
 		exit(8);
 	dup2(connect[0], 0);
@@ -127,26 +115,26 @@ void	second_command(int *connect, char **argv, char **env)
 	exit(9);
 }
 
-void end(int *connect, int pid_1, int pid_2)
-{
-    close(connect[1]);
-    close(connect[0]);
-    waitpid(pid_1, NULL, 0);
-    waitpid(pid_2, NULL, 0);
-}
+// void	end(int *connect, int pid_1, int pid_2)
+// {
+// 	close(connect[1]);
+// 	close(connect[0]);
+// 	waitpid(pid_1, NULL, 0);
+// 	waitpid(pid_2, NULL, 0);
+// }
 
 int	main(int argc, char **argv, char **env)
 {
 	pid_t	pid_1;
-	pid_t	pid_2;
+	//pid_t	pid_2;
 	int		connect[2];
 
-	if (argc != 5 || argv[2][0] == '\0' || argv[3][0] == '\0')
+	if (argc != 5 || isspace_str(argv[2]) == 0 || isspace_str(argv[3]) == 0)
 	{
-		write(1, "missing param\n", 14);
+		write(2, "wrong param\n", 12);
 		exit(1);
 	}
-	pipe(connect); //init /medium / end y cada abre su pipe y hace su fork devuelven lo que necesita el siguiente hijo
+	pipe(connect); //init/medium/ end y cada abre su pipe y hace su fork devuelven lo que necesita el siguiente hijo
 	pid_1 = fork();
 	if (pid_1 == -1)
 		exit(2);
@@ -154,12 +142,22 @@ int	main(int argc, char **argv, char **env)
 		first_command(connect, argv, env);
 	else
 	{
-		pid_2 = fork();
-		if (pid_2 == -1)
-			exit(6);
-		if (pid_2 == 0)
-			second_command(connect, argv, env);
-		else
-            end(connect, pid_1, pid_2);
+		if (fork() == 0)
+			   second_command(connect, argv, env);
+		close(connect[1]);
+		close(connect[0]);
+		waitpid(pid_1, NULL, 0);
+		waitpid(-1, NULL, 0);
 	}
 }
+
+
+	// pid_2 = fork();
+	// if (pid_2 == -1)
+	// 	exit(6);
+	// if (pid_2 == 0)
+	// 	second_command(connect, argv, env);
+	// else
+	// 	end(connect, pid_1, pid_2);
+
+	//./pipex paco.txt ls wc > slash.txt
