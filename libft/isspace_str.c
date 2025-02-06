@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   isspace_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aldferna <aldferna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 13:09:35 by aldferna          #+#    #+#             */
-/*   Updated: 2025/02/05 19:09:44 by aldferna         ###   ########.fr       */
+/*   Created: 2025/02/04 14:27:30 by aldferna          #+#    #+#             */
+/*   Updated: 2025/02/05 19:10:40 by aldferna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
+int	isspace_str(char *str)
+{
+	int	i;
 
-# define INFILE 1
-# define COMD1 2
-# define COMD2 3
-# define OUTFILE 4
-
-#endif
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}

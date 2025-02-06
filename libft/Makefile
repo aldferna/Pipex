@@ -5,7 +5,7 @@ AR = ar rcs
 RM = rm -f
 
 SRC = ft_bzero.c ft_calloc.c ft_split.c ft_strdup.c ft_strlcpy.c ft_strlen.c \
-ft_substr.c ft_strncmp.c ft_strjoin.c ft_strlcat.c ft_strchr.c \
+ft_substr.c ft_strncmp.c ft_strjoin.c ft_strlcat.c ft_strchr.c isspace_str.c\
 
 OBJ = $(SRC:.c=.o)
 
