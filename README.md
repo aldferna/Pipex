@@ -1,8 +1,8 @@
 # 42 Cursus
 
 ## Pipex 🐚
-The pipex project challenges you to emulate the behavior of the Unix shell command pipex, allowing users to redirect the output of one command as the input to another.
-Low-level programming concepts and a deep understanding of Unix system calls; handling file descriptors, processes, pipes, and command executions.
+The pipex project challenges you to emulate the behavior of the Unix shell command pipex, allowing users to redirect the output of one command as the input to another.  
+Low-level programming concepts and a deep understanding of Unix system calls; handling file descriptors, processes, pipes, and command executions.  
 
 ## How to use:
 
@@ -22,6 +22,8 @@ make bonus
 ```c
 ./pipex infile cmd1 cmd2 outfile
 ```
+
+
 
 **Example**
 ```c
