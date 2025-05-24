@@ -23,7 +23,7 @@ make bonus
 ./pipex infile cmd1 cmd2 outfile
 ```
 
-
+<div style="margin-top: 100px;"></div>
 
 **Example**
 ```c
