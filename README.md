@@ -23,9 +23,7 @@ make bonus
 ./pipex infile cmd1 cmd2 outfile
 ```
 
-<div style="margin-top: 100px;"></div>
-
-**Example**
+🗒 **Example**
 ```c
 ./pipex input.txt "grep keyword" "sort -r" output.txt
 ```
