@@ -27,7 +27,7 @@ make bonus
 ```c
 ./pipex input.txt "grep keyword" "sort -r" output.txt
 ```
-To test the first part of the bonus, use three or more commands:
+To test the bonus part, use three or more commands:
 ```c
 ./pipex input.txt "grep keyword" "sort -r" "wc -l" output.txt
 ```
